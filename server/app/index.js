@@ -3,8 +3,6 @@
 var app = require('express')();
 var path = require('path');
 
-var HttpError = require('../utils/HttpError');
-
 // "Enhancing" middleware (does not send response, server-side effects only)
 
 app.use(require('./logging.middleware'));
@@ -26,24 +24,10 @@ validFrontendRoutes.forEach(function (stateRoute) {
 
 app.use(require('./statics.middleware'));
 
-// Error handling middleware
+// "Error" middleware
 
-app.use(HttpError(404).middleware());
+app.use(require('../utils/HttpError')(404).middleware());
 
-app.use(function (err, req, res, next) {
-  err.status = err.status || 500;
-  console.error(err.stack);
-  var html = [
-    '<html><body>',
-    '<p>ERROR: ', err.status, ' - ', err.message, '</p>',
-    '<p>VERB: ', req.method, '</p>',
-    '<p>URL: ', req.originalUrl, '</p>',
-    '<p>QUERY ', JSON.stringify(req.query), '</p>',
-    '<p>BODY: ', JSON.stringify(req.body), '</p>',
-    '<pre>', err.stack, '</pre>',
-    '</body></html>'
-  ].join('');
-  res.status(err.status).send(html);
-});
+app.use(require('./error.middleware'));
 
 module.exports = app;
