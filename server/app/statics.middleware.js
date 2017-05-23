@@ -15,3 +15,4 @@ router.use(express.static(buildPath));
 router.use(express.static(nodeModulesPath));
 
 module.exports = router;
+

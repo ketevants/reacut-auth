@@ -33,6 +33,7 @@ router.post('/', function (req, res, next) {
   .catch(next);
 });
 
+
 router.get('/:id', function (req, res, next) {
   req.requestedUser.reload(User.options.scopes.populated())
   .then(function (requestedUser) {

@@ -25,6 +25,8 @@ const Routes = ({ fetchInitialData, onStoryEnter }) => (
       <Route path="stories" component={StoryList} />
       <Route path="stories/:id" component={StoryDetail} onEnter={onStoryEnter} />
       <Route path="*" component={Home} />
+
+
     </Route>
   </Router>
 );

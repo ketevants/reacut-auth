@@ -6,6 +6,7 @@ const INITIALIZE = 'INITIALIZE_USERS';
 const CREATE     = 'CREATE_USER';
 export const REMOVE = 'REMOVE_USER';
 const UPDATE     = 'UPDATE_USER';
+const SET_USER = 'SET_USER';
 
 
 /* ------------   ACTION CREATORS     ------------------ */
@@ -14,11 +15,17 @@ const init  = users => ({ type: INITIALIZE, users });
 const create = user  => ({ type: CREATE, user });
 const remove = id    => ({ type: REMOVE, id });
 const update = user  => ({ type: UPDATE, user });
+const setUser = user  => {
+  console.log(user,' iuser')
+  return({ type: SET_USER, user })
+};
+
 
 
 /* ------------       REDUCER     ------------------ */
 
 export default function reducer (users = [], action) {
+ console.log('action',action)
   switch (action.type) {
 
     case INITIALIZE:
@@ -26,6 +33,9 @@ export default function reducer (users = [], action) {
 
     case CREATE:
       return [action.user, ...users];
+
+   case SET_USER:
+      return action.user;
 
     case REMOVE:
       return users.filter(user => user.id !== action.id);
@@ -66,3 +76,17 @@ export const updateUser = (id, user) => dispatch => {
        .then(res => dispatch(update(res.data)))
        .catch(err => console.error(`Updating user: ${user} unsuccesful`, err));
 };
+export const doLogin = credentials => dispatch => {
+  return axios.post('/login', credentials)
+       .then(res => res.data)
+       .then(user => dispatch(setUser(user)))
+       .catch(err => console.error("Unsuccessful", err));
+};
+
+export const signUp = credentials => dispatch => {
+  return axios.post('/signup', credentials)
+       .then(res => res.data)
+       .then(user => dispatch(create(user)))
+       .catch(err => console.error("Unsuccessful", err));
+};
+
