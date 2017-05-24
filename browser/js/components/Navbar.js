@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
+import {loggingOut} from '../redux/users';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -78,7 +79,8 @@ const mapProps = null;
 
 const mapDispatch = dispatch => ({
   logout: () => {
-    console.log('You signed out. Sorta.');
+    // console.log('You signed out. Sorta.');
+    dispatch(loggingOut());
     browserHistory.push('/');
   }
 });

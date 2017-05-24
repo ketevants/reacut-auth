@@ -7,6 +7,7 @@ const CREATE     = 'CREATE_USER';
 export const REMOVE = 'REMOVE_USER';
 const UPDATE     = 'UPDATE_USER';
 const SET_USER = 'SET_USER';
+const REM_USER = 'REM_USER';
 
 
 /* ------------   ACTION CREATORS     ------------------ */
@@ -18,14 +19,15 @@ const update = user  => ({ type: UPDATE, user });
 const setUser = user  => {
   console.log(user,' iuser')
   return({ type: SET_USER, user })
-};
-
+  };
+const logoutUser = ()  => ({ type: REM_USER, user: "" });
 
 
 /* ------------       REDUCER     ------------------ */
 
 export default function reducer (users = [], action) {
  console.log('action',action)
+
   switch (action.type) {
 
     case INITIALIZE:
@@ -35,6 +37,10 @@ export default function reducer (users = [], action) {
       return [action.user, ...users];
 
    case SET_USER:
+      return action.user;
+
+    case REM_USER:
+      console.log("REM USER *****")
       return action.user;
 
     case REMOVE:
@@ -90,3 +96,9 @@ export const signUp = credentials => dispatch => {
        .catch(err => console.error("Unsuccessful", err));
 };
 
+
+export const loggingOut = () => dispatch => {
+        dispatch(logoutUser())
+        axios.delete('/logout')
+       .catch(err => console.error("Unsuccessful", err));
+};

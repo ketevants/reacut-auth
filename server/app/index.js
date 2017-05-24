@@ -77,13 +77,13 @@ app.post('/signup', function (req, res, next) {
 });
 
 
-app.get('/logout', (req, res ) =>{
+app.delete('/logout', (req, res ) =>{
   console.log("LOOOG OUUT!", req.session)
   req.session.destroy();
 console.log("destroyed")
 console.log("LOOOG OUUT!", req.session)
 
-  res.redirect('/');
+  // res.redirect('/');
 });
 app.use(require('./statics.middleware'));
 
